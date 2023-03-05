@@ -35,31 +35,57 @@ enum MessageAssetSize {
   REALLY_LARGE
 }
 
+enum ITemStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ChannelRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
 model User {
-  id        String    @id @default(uuid()) @db.Uuid
-  email     String    @unique
-  handle   String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  channel   Channel[]
-  message   Message[]
-  pic_url   String?
-  bio       String?
-  uid      String?
+  id             String          @id @default(uuid()) @db.Uuid
+  email          String          @unique
+  handle         String          @unique
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  channel        Channel[]
+  message        Message[]
+  channel_member ChannelMember[]
+  pic_url        String?
+  bio            String?
+  uid            String          @unique
+  status         ITemStatus      @default(ACTIVE)
 }
 
 model Channel {
-  id         String                @id @default(uuid()) @db.Uuid
-  name       String
-  visibility ChannelVisibilityType @default(PRIVATE)
-  type       ChannelType           @default(DIRECT)
-  createdAt  DateTime              @default(now())
-  updatedAt  DateTime              @updatedAt
-  user       User                  @relation(fields: [created_by], references: [id])
-  created_by String                @db.Uuid
-  message    Message[]
-  pic_url    String?
-  bio        String?
+  id             String                @id @unique @default(uuid()) @db.Uuid
+  name           String
+  visibility     ChannelVisibilityType @default(PRIVATE)
+  type           ChannelType           @default(DIRECT)
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  user           User                  @relation(fields: [created_by], references: [id])
+  created_by     String                @db.Uuid
+  message        Message[]
+  pic_url        String?
+  bio            String?
+  channel_member ChannelMember[]
+  status         ITemStatus            @default(ACTIVE)
+}
+
+model ChannelMember {
+  id         String   @id @unique @default(uuid()) @db.Uuid
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String   @db.Uuid
+  channel    Channel  @relation(fields: [channel_id], references: [id])
+  channel_id String   @db.Uuid
+  joined_at  DateTime @default(now())
+  status     ITemStatus @default(ACTIVE)
+  role       ChannelRole @default(MEMBER)
 }
 
 model Message {
@@ -75,6 +101,7 @@ model Message {
   parent_thread    Thread?        @relation(fields: [parent_thread_id], references: [id], name: "parent_thread")
   parent_thread_id String?        @db.Uuid
   asset            MessageAsset[]
+  status           ITemStatus     @default(ACTIVE)
 }
 
 model Thread {
@@ -82,6 +109,7 @@ model Thread {
   message       Message   @relation(fields: [parent], references: [id], name: "message_thread")
   parent        String    @db.Uuid
   parent_thread Message[] @relation("parent_thread")
+  status        ITemStatus @default(ACTIVE)
 }
 
 model MessageAsset {
@@ -90,4 +118,6 @@ model MessageAsset {
   message_id String           @db.Uuid
   url        String
   type       MessageAssetType
+  size       MessageAssetSize
+  status     ITemStatus       @default(ACTIVE)
 }

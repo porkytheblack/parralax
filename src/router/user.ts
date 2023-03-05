@@ -1,9 +1,11 @@
-import { createUser } from '@resolvers/user';
+import { createUser, updateUser, getUser } from '@resolvers/user';
 import { app } from "@router/index";
 
 
 const UserRouter = app.router({
-    createUser
+    createUser,
+    updateUser,
+    getUser
 })
 
 export default UserRouter;
