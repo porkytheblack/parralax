@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ChannelVisibilityType {
+  PUBLIC
+  PRIVATE
+}
+
+enum ChannelType {
+  DIRECT
+  GROUP
+  CHANNEL
+}
+
+enum MessageAssetType {
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+}
+
+enum MessageAssetSize {
+  SMALL
+  MEDIUM
+  LARGE
+  REALLY_LARGE
+}
+
+model User {
+  id        String    @id @default(uuid()) @db.Uuid
+  email     String    @unique
+  handler   String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  channel   Channel[]
+  message   Message[]
+  pic_url   String?
+  bio       String?
+}
+
+model Channel {
+  id         String                @id @default(uuid()) @db.Uuid
+  name       String
+  visibility ChannelVisibilityType @default(PRIVATE)
+  type       ChannelType           @default(DIRECT)
+  createdAt  DateTime              @default(now())
+  updatedAt  DateTime              @updatedAt
+  user       User                  @relation(fields: [created_by], references: [id])
+  created_by String                @db.Uuid
+  message    Message[]
+  pic_url    String?
+  bio        String?
+}
+
+model Message {
+  id               String         @id @default(uuid()) @db.Uuid
+  content          String
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  user             User           @relation(fields: [created_by], references: [id])
+  created_by       String         @db.Uuid
+  channel          Channel        @relation(fields: [channel_id], references: [id])
+  channel_id       String         @db.Uuid
+  message_thread   Thread[]       @relation("message_thread")
+  parent_thread    Thread?        @relation(fields: [parent_thread_id], references: [id], name: "parent_thread")
+  parent_thread_id String?        @db.Uuid
+  asset            MessageAsset[]
+}
+
+model Thread {
+  id            String    @id @default(uuid()) @db.Uuid
+  message       Message   @relation(fields: [parent], references: [id], name: "message_thread")
+  parent        String    @db.Uuid
+  parent_thread Message[] @relation("parent_thread")
+}
+
+model MessageAsset {
+  id         String           @id @default(uuid()) @db.Uuid
+  message    Message          @relation(fields: [message_id], references: [id])
+  message_id String           @db.Uuid
+  url        String
+  type       MessageAssetType
+}
