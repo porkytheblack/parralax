@@ -38,13 +38,14 @@ enum MessageAssetSize {
 model User {
   id        String    @id @default(uuid()) @db.Uuid
   email     String    @unique
-  handler   String    @unique
+  handle   String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   channel   Channel[]
   message   Message[]
   pic_url   String?
   bio       String?
+  uid      String?
 }
 
 model Channel {
