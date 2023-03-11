@@ -4,6 +4,7 @@ import tUser, { create_user_tUser } from '@validators/user';
 import { procedure } from '@router/index';
 import { isEmpty, isNull } from 'lodash';
 import { removeFields } from '@utils/index';
+import { withAuth } from '@middleware/index';
 
 export const createUser = procedure.input(
     create_user_tUser
@@ -27,7 +28,7 @@ export const createUser = procedure.input(
     })
 })
 
-export const updateUser = procedure.input(tUser).mutation((req)=>{
+export const updateUser = procedure.use(withAuth).input(tUser).mutation((req)=>{
     const uid = req.ctx.uid
     const prisma = req.ctx.prisma
     if (isNull(uid) || isEmpty(uid)) return "You must be logged in to update your profile";
@@ -68,7 +69,7 @@ export const updateUser = procedure.input(tUser).mutation((req)=>{
 })
 
 
-export const getUser = procedure.query(({input, ctx})=>{
+export const getUser = procedure.use(withAuth).query(({input, ctx})=>{
     const {uid} = ctx
     const prisma = ctx.prisma
     if (isNull(uid)) throw new TRPCError({

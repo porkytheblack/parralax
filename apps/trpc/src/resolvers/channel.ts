@@ -1,10 +1,11 @@
-import { TRPCError } from './../../node_modules/@trpc/server/src/error/TRPCError';
 import { isEmpty, isNull } from 'lodash';
 import { create_channel_tChannel, invite_user_to_channel, update_channel_tChannel } from '@validators/channel';
 import { procedure } from 'router';
+import { TRPCError } from '@trpc/server';
+import { withAuth } from '@middleware/index';
 
 
-export const createChannel = procedure.input(create_channel_tChannel)
+export const createChannel = procedure.use(withAuth).input(create_channel_tChannel)
 .mutation(({ctx: {prisma, uid}, input})=>{
     if (isEmpty(uid) || isNull(uid))  throw new TRPCError({
         code: 'UNAUTHORIZED',
@@ -53,7 +54,7 @@ export const createChannel = procedure.input(create_channel_tChannel)
 })
 
 
-export const updateChannel = procedure.input(update_channel_tChannel)
+export const updateChannel = procedure.use(withAuth).input(update_channel_tChannel)
 .mutation(({ctx: {prisma, channel_id, uid}, input})=>{
     if (isEmpty(uid) || isNull(uid)) throw new TRPCError({
         code: "UNAUTHORIZED",
@@ -106,7 +107,7 @@ export const updateChannel = procedure.input(update_channel_tChannel)
     })
 })
 
-export const getChannel = procedure.query(({ctx: {prisma, channel_id, uid}})=>{
+export const getChannel = procedure.use(withAuth).query(({ctx: {prisma, channel_id, uid}})=>{
     if (isEmpty(uid) || isNull(uid)) throw new TRPCError({
         code: "UNAUTHORIZED",
         message: "You must be logged in to get a channel"
@@ -157,7 +158,7 @@ export const getChannel = procedure.query(({ctx: {prisma, channel_id, uid}})=>{
     })
 })
 
-export const inviteToChannel = procedure.input(invite_user_to_channel).mutation(({ctx: {prisma, uid}, input })=>{
+export const inviteToChannel = procedure.use(withAuth).input(invite_user_to_channel).mutation(({ctx: {prisma, uid}, input })=>{
     if (isEmpty(uid) || isNull(uid)) throw new TRPCError({
         code: "UNAUTHORIZED",
         message: "You must be logged in to invite a user to a channel"

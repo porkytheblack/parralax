@@ -94,7 +94,7 @@ model Message {
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   user             User           @relation(fields: [created_by], references: [id])
-  created_by       String         @db.Uuid
+  created_by       String         @db.Uuid 
   channel          Channel        @relation(fields: [channel_id], references: [id])
   channel_id       String         @db.Uuid
   message_thread   Thread[]       @relation("message_thread")
