@@ -1,3 +1,9 @@
+/**
+ * In order to use environment variables in Expo Go, you must use the dotenv package.
+ */
+// import * as dotenv from "dotenv"
+// dotenv.config()
+
 import { registerRootComponent } from 'expo';
 
 import App from './App';

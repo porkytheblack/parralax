@@ -1,0 +1,25 @@
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { RootParamList } from './types'
+import Splash from '@screens/splash'
+
+
+const RootNavigator = createNativeStackNavigator<RootParamList>()
+
+const Navigation = () => {
+  return (
+    <RootNavigator.Navigator 
+      initialRouteName='Splash' 
+      screenOptions={{
+        headerShown: false
+      }}
+      >
+      <RootNavigator.Screen name="Splash" component={Splash}  />
+    </RootNavigator.Navigator>
+  )
+}
+
+export default Navigation
+
+const styles = StyleSheet.create({})

@@ -1,20 +1,32 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider } from '@rneui/themed';
+import { theme } from '@theme/index';
+import TrpcApp from '@app-trpc/TrpcApp';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import LoadFonts from '@theme/LoadFonts';
 
-export default function App() {
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
+import Navigation from './navigation';
+
+function App() {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <LoadFonts>
+      <NavigationContainer>
+        <SafeAreaProvider>
+          <ThemeProvider
+            theme={theme}
+          >
+            <TrpcApp>
+              <Navigation/>
+            </TrpcApp>
+          </ThemeProvider>
+        </SafeAreaProvider>
+      </NavigationContainer>
+    </LoadFonts>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default gestureHandlerRootHOC(App);
