@@ -1,4 +1,3 @@
-import { CreateExpressContextOptions } from './node_modules/@trpc/server/src/adapters/express';
 import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
@@ -9,6 +8,7 @@ import prismaClient from '@prismaclient/index';
 import morgan from "morgan"
 import firebaseApp from "@firebase/index"
 import { getUid } from '@utils/auth';
+import { CreateExpressContextOptions } from "@trpc/server/adapters/express"
 
 const createContext = async (opts: CreateExpressContextOptions) => {
     /**
@@ -43,3 +43,4 @@ app.use("/v1/", trpcExpress.createExpressMiddleware({
 app.listen(port,()=>{
     console.log("📒 Active on port :: "+ port)
 })
+export type AppRouter = typeof appRouter;
