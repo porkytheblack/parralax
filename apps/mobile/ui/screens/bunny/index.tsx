@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { BunnyScreenParamList, RootParamList } from 'navigation/types'
 import { makeStyles, useTheme } from '@rneui/themed'
@@ -9,6 +9,7 @@ import Profile from './profile'
 import Settings from './settings'
 import Chat from './chat'
 import { Feather, FontAwesome, FontAwesome5 } from '@expo/vector-icons'
+import ChatHeader from '@components/molecules/ChatHeader'
 
 type Props = NativeStackScreenProps<RootParamList, "Bunny">
 
@@ -18,8 +19,9 @@ const Bunny = (props: Props) => {
     const theme = useTheme()
   return (
     <BottomNavigator.Navigator
+        initialRouteName='Chat'
         screenOptions={{
-            headerShown: false,
+            
             tabBarStyle: {
                 borderTopRightRadius: 30,
                 borderTopLeftRadius: 30,
@@ -48,6 +50,7 @@ const Bunny = (props: Props) => {
             name="Home" 
             component={Home} 
             options={{
+                headerShown: false,
                 tabBarIcon: ({focused}) => {
                     return (
                         <FontAwesome
@@ -62,6 +65,7 @@ const Bunny = (props: Props) => {
         />
         <BottomNavigator.Screen name="Profile" component={Profile}
             options={{
+                headerShown: false,
                 tabBarIcon: ({focused}) => {
                     return (
                         <FontAwesome5
@@ -75,6 +79,7 @@ const Bunny = (props: Props) => {
         />
         <BottomNavigator.Screen name="Settings" component={Settings}
             options={{
+                headerShown: false,
                 tabBarIcon: ({focused}) => {
                     return (
                         <Feather 
@@ -90,6 +95,7 @@ const Bunny = (props: Props) => {
             name="Chat" 
             component={Chat} 
             options={{
+                headerShown: true,
                 tabBarIcon: ({focused}) =>{
                     return (
                         <Feather 
@@ -100,8 +106,14 @@ const Bunny = (props: Props) => {
                             }
                         />
                     )
+                },
+                header: (props)=> <ChatHeader {...props} />,
+                tabBarHideOnKeyboard: true,
+                tabBarStyle: {
+                    display: 'none'
                 }
             }}
+            
         />
     </BottomNavigator.Navigator>
   )
