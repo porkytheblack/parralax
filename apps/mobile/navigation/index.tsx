@@ -12,9 +12,10 @@ const RootNavigator = createNativeStackNavigator<RootParamList>()
 const Navigation = () => {
   return (
     <RootNavigator.Navigator 
-      initialRouteName='Bunny' 
+      initialRouteName='Splash' 
       screenOptions={{
-        headerShown: false
+        headerShown: false,
+        navigationBarColor: 'white'
       }}
       >
       <RootNavigator.Screen name="Splash" component={Splash}  />

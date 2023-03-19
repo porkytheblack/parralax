@@ -5,6 +5,9 @@ import { RootParamList } from 'navigation/types'
 import { Image, makeStyles, Text } from '@rneui/themed'
 import HeroIllustration from "../../../assets/illustrations/workfromhome.svg"
 import RoundedButton from '@components/atoms/RoundedButton'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import app, { auth } from '@app-firebase/index'
+import { isEmpty } from 'lodash'
 
 type Props = NativeStackScreenProps<RootParamList, "Splash">
 
@@ -45,6 +48,16 @@ const useStyles = makeStyles((theme)=>{
 const Splash = (props: Props) => {
   const styles = useStyles()
 
+  const goToLogin = () => {
+    props.navigation.navigate("Auth")
+  }
+
+  onAuthStateChanged(auth, (user)=>{
+    if(!isEmpty(user)){
+      props.navigation.navigate("Bunny")
+    }
+  })
+
   return (
     <View
       style={styles.container}
@@ -64,7 +77,7 @@ const Splash = (props: Props) => {
         />
       </View>
       <View style={styles.bottomSection} >
-        <RoundedButton>
+        <RoundedButton onPress={goToLogin} >
           Join the Community
         </RoundedButton>
       </View>

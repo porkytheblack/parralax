@@ -2,6 +2,9 @@ import { View } from 'react-native'
 import React from 'react'
 import { makeStyles, Image, Text, useTheme } from '@rneui/themed'
 import { Ionicons } from '@expo/vector-icons'
+import { NativeStackHeaderProps, NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { BunnyHomeScreenParamList } from 'navigation/types'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const useStyles = makeStyles((theme)=>{
     return {
@@ -43,17 +46,26 @@ const useStyles = makeStyles((theme)=>{
     }
 })
 
-const ChatHeader = () => {
+type Props = NativeStackHeaderProps
+
+const ChatHeader = (props: Props) => {
     const styles = useStyles()
     const {theme} = useTheme()
   return (
     <View style={styles.container} >
         <View style={styles.leftSection} >
-            <Ionicons
-                name="arrow-back-sharp"
-                size={24}
-                color="black"
-            /> 
+            <TouchableOpacity
+                onPress={()=>{
+                    props.navigation.goBack()
+                }}
+            >
+                <Ionicons
+                    name="arrow-back-sharp"
+                    size={24}
+                    color="black"
+                /> 
+            </TouchableOpacity>
+            
         </View>
       <View style={styles.centerSection} >
             <Image

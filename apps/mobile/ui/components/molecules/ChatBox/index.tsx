@@ -60,10 +60,14 @@ const useStyle = makeStyles((theme)=>{
     }
 })
 
-const ChatBox = () => {
+interface Props {
+    onPress: () => void
+}
+
+const ChatBox = (props: Props) => {
     const styles = useStyle()
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity onPress={props.onPress} style={styles.container}>
         <View style={styles.chatIcon}>
             <Image
                 source={{
@@ -77,7 +81,7 @@ const ChatBox = () => {
             />
         </View>
         <View style={styles.chatInfoContainer}>
-            <Text style={styles.chatInfoName}>Amit</Text>
+            <Text style={styles.chatInfoName}>Angelo</Text>
             <Text style={styles.chatInfoMessage}>Hello</Text>
         </View>
         <View style={styles.chatSummaryContainer}>

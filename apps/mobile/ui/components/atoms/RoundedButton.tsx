@@ -25,6 +25,7 @@ const RoundedButton = (props: Props) => {
   return (
     <Button
       style={container}
+      containerStyle={container}
       onPress={onPress}
       buttonStyle={{
         backgroundColor: 'transparent',

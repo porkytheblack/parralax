@@ -12,3 +12,10 @@ export type BunnyScreenParamList =  {
     Settings: undefined;
     Chat: undefined;
 }
+
+export type BunnyHomeScreenParamList = {
+    BunnyHome: undefined;
+    Chats: {
+        chat_id: string
+    };
+}

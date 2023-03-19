@@ -1,13 +1,14 @@
 import { Dimensions, FlatList, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
-import { BunnyScreenParamList } from 'navigation/types'
+import { BunnyHomeScreenParamList, BunnyScreenParamList } from 'navigation/types'
 import { makeStyles } from '@rneui/themed'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SearchInput from '@components/atoms/Input/SearchInput'
-import Chats from './chats'
+import ChatTabs from './tabs/ChatTabs'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-type Props = BottomTabScreenProps<BunnyScreenParamList, "Home">
+type Props = NativeStackScreenProps<BunnyHomeScreenParamList, "BunnyHome">
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme)=>{
       flex: 1,
       backgroundColor: theme.colors.white,
       paddingHorizontal: 20,
+      paddingBottom: 40
     },
     tabsSection: {
       width: "100%",
@@ -104,7 +106,7 @@ const Home = ( props: Props ) => {
            
             horizontal
             renderItem={({item, index})=>{
-              return ( item === 1 ? <Chats/> :
+              return (item === 1 ? <ChatTabs navigation={props} /> :
                 <View key={index} style={styles.tabContainer} >
                     <Text>
                       {item}
