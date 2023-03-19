@@ -6,7 +6,7 @@ import { Image, makeStyles, Text } from '@rneui/themed'
 import HeroIllustration from "../../../assets/illustrations/workfromhome.svg"
 import RoundedButton from '@components/atoms/RoundedButton'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import app from '@app-firebase/index'
+import app, { auth } from '@app-firebase/index'
 import { isEmpty } from 'lodash'
 
 type Props = NativeStackScreenProps<RootParamList, "Splash">
@@ -51,6 +51,12 @@ const Splash = (props: Props) => {
   const goToLogin = () => {
     props.navigation.navigate("Auth")
   }
+
+  onAuthStateChanged(auth, (user)=>{
+    if(!isEmpty(user)){
+      props.navigation.navigate("Bunny")
+    }
+  })
 
   return (
     <View
