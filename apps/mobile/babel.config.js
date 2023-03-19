@@ -10,7 +10,7 @@ module.exports = function(api) {
             "@theme": "./ui/theme",
             "@components": "./ui/components",
             "@screens": "./ui/screens",
-            "@navigation": "./ui/navigation",
+            "@navigation": "./navigation",
             "@hooks": "./hooks",
             "@utils": "./utils",
             "@store": "./store",

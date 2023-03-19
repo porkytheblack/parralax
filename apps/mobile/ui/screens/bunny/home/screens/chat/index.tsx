@@ -1,13 +1,13 @@
-import { Text, View, SafeAreaView, FlatList } from 'react-native'
+import { View, SafeAreaView, FlatList } from 'react-native'
 import React from 'react'
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
-import { BunnyScreenParamList } from 'navigation/types'
+import { BunnyHomeScreenParamList, BunnyScreenParamList } from 'navigation/types'
 import { makeStyles } from '@rneui/themed'
 import ChatBubble from '@components/molecules/ChatBubble'
 import { faker } from "@faker-js/faker"
 import ChatInput from '@components/molecules/ChatInput'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-type Props = BottomTabScreenProps<BunnyScreenParamList, "Chat">
+type Props = NativeStackScreenProps<BunnyHomeScreenParamList, "Chats">
 
 
 const useStyles = makeStyles((theme)=>{
@@ -16,7 +16,8 @@ const useStyles = makeStyles((theme)=>{
       flex: 1,
       backgroundColor: theme.colors.white,
       paddingHorizontal: 20,
-      alignItems: "center"
+      alignItems: "center",
+      paddingBottom: 50
     }
   }
 })

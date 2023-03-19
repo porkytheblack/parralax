@@ -14,7 +14,8 @@ const Navigation = () => {
     <RootNavigator.Navigator 
       initialRouteName='Bunny' 
       screenOptions={{
-        headerShown: false
+        headerShown: false,
+        navigationBarColor: 'white'
       }}
       >
       <RootNavigator.Screen name="Splash" component={Splash}  />
